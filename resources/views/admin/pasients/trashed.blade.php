@@ -20,11 +20,6 @@
             <h2 class="card-title mb-0">Data Pasien Terhapus</h2>
             <p class="mb-0">Data pasien yang telah dihapus (soft delete)</p>
         </div>
-        <div>
-            <a href="{{ route('Pasien') }}" class="btn btn-primary buttom-radius">
-                <i class="fas fa-arrow-left"></i> Kembali ke Data Pasien
-            </a>
-        </div>
     </div>
     <div class="card-body">
         @if(session('success'))
@@ -56,12 +51,12 @@
                             <td>
                                 <form action="{{ route('patients.restore', $patient->id) }}" method="POST" class="d-inline form-pemulihan-dokument">
                                     @csrf
-                                    <button type="submit" class="btn btn-success btn-sm buttom-radius">Pulihkan</button>
+                                    <button type="submit" class="btn btn-success btn-sm buttom-radius"><i class="fas fa-sync mr-2"></i>Pulihkan</button>
                                 </form>
                                 <form action="{{ route('patients.force-delete', $patient->id) }}" method="POST" class="d-inline form-hapus-dokument">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm buttom-radius">Hapus Permanen</button>
+                                    <button type="submit" class="btn btn-danger btn-sm buttom-radius"><i class="fas fa-trash mr-2"></i>Hapus Permanen</button>
                                 </form>
                             </td>
                         </tr>

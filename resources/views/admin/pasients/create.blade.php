@@ -215,8 +215,8 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary buttom-radius">Simpan Data Pasien</button>
-                <a href="{{ route('Pasien') }}" class="btn btn-secondary buttom-radius">Batal</a>
+                <button type="submit" class="btn btn-primary buttom-radius"><i class="fas fa-plus mr-2"></i>Simpan Data Pasien</button>
+            <a href="{{ route('Pasien') }}" class="btn btn-secondary buttom-radius">Batal</a>
             </div>
         </form>
     </div>

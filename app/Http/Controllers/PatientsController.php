@@ -121,11 +121,21 @@ class PatientsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Patients $patients)
+    public function show($id)
     {
-        //
-    }
+        $patient = Patients::findOrFail($id);
 
+        $data = [
+            'title' => 'Detail Pasien',
+            'breadcrumbs' => [
+                ['label' => 'Data Pasien', 'url' => route('Pasien')],
+                ['label' => 'Detail Pasien', 'url' => route('patients.show', $id)],
+            ],
+            'patient' => $patient,
+        ];
+
+        return view('admin.pasients.show', $data);
+    }
     /**
      * Show the form for editing the specified resource.
      */
