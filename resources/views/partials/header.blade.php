@@ -14,7 +14,7 @@
                 <li class="nav-item ">
                     <a href="" class="nav-link"><i class="typcn typcn-chart-area-outline"></i> Dashboard</a>
                 </li>
-                <li class="nav-item {{ $title == 'Medicines List' || $title == 'Add Penduduk' || $title == 'Edit Penduduk' ? 'active' : '' }}">
+                <li class="nav-item {{ $title == 'Data Pasien' || $title == 'Add Pasien' || $title == 'Edit Penduduk' ? 'active' : '' }}">
                         <a href="" class="nav-link"><i class="typcn typcn-user"></i>Data Pasien</a>
                 </li>
                 

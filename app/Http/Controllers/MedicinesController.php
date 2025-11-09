@@ -12,14 +12,7 @@ class MedicinesController extends Controller
      */
     public function index()
     {
-        $data = [
-            'title' => 'Medicines List',
-            'breadcrumbs' => [
-                ['label' => 'Data Pasien', 'url' => route('medic')],
-            ],
-        ];
-
-        return view('welcome', $data);
+        // 
     }
 
     /**

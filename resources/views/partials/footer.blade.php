@@ -307,18 +307,18 @@
                 });
             });
             document.addEventListener("DOMContentLoaded", function () {
-                const forms = document.querySelectorAll(".form-konfirmasi-dokument");
+                const forms = document.querySelectorAll(".form-pemulihan-dokument");
                 forms.forEach(form => {
                     form.addEventListener("submit", function (e) {
                         e.preventDefault(); // Cegah submit langsung
                         Swal.fire({
-                            title: 'Yakin ingin Mengkonfirmasi?',
-                            text: "Data Akan dikonfirmasi, Pastikan Semua Laporan Yang Anda Masukan Telah Sesuai!",
+                            title: 'Yakin ingin Memulihkan Data Ini?',
+                            text: "Data Akan DIPulihkan, Pastikan Semua Laporan Yang Anda Masukan Telah Sesuai!",
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#28a745', // warna hijau
                             cancelButtonColor: '#3085d6',
-                            confirmButtonText: 'Ya, Konfirmasi!',           
+                            confirmButtonText: 'Ya, Pulihkan!',           
                             cancelButtonText: 'Batal'
                         }).then((result) => {
                             if (result.isConfirmed) {
