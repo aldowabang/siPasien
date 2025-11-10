@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+
+class Controller extends BaseController
 {
-    public function index()
-    {
-        $data = [
-            'title' => 'Web Simpus',
-            'heading' => 'Tambah Data',
-            'subheading' => 'Cek Halaman ini',
-            'content' => 'Ini adalah halaman utama dari aplikasi Simpus.'
-        ];
-        return view('welcome', $data);
-    }
+    use AuthorizesRequests, ValidatesRequests;
 }

@@ -111,23 +111,23 @@ class VisitsController extends Controller
         return view('admin.visits.show', $data);
     }
 
-    public function edit(Visits $visit)
-    {
-        $patients = Patients::orderBy('name')->get();
+    public function edit(Visits $visit) // Perbaiki dari Visits ke Visit
+        {
+            $patients = Patients::orderBy('name')->get(); // Perbaiki dari Patients ke Patient
 
-        $data = [
-            'title' => 'Edit Kunjungan',
-            'breadcrumbs' => [
-                ['label' => 'Data Kunjungan', 'url' => route('visits.index')],
-                ['label' => 'Edit Kunjungan', 'url' => route('visits.edit', $visit->id)],
-            ],
-            'visit' => $visit,
-            'patients' => $patients,
-            'polyclinics' => $this->getPolyclinics()
-        ];
+            $data = [
+                'title' => 'Edit Kunjungan',
+                'breadcrumbs' => [
+                    ['label' => 'Data Kunjungan', 'url' => route('visits.index')],
+                    ['label' => 'Edit Kunjungan', 'url' => route('visits.edit', $visit->id)],
+                ],
+                'visit' => $visit,
+                'patients' => $patients,
+                'polyclinics' => $this->getPolyclinics()
+            ];
 
-        return view('admin.visits.edit', $data);
-    }
+            return view('admin.visits.edit', $data);
+        }
 
     public function update(Request $request, Visits $visit)
     {
@@ -149,9 +149,12 @@ class VisitsController extends Controller
             'notes' => $request->notes
         ]);
 
-        return redirect()->route('visits.index')
+        return redirect()->route('visits.show', $visit->id)
                         ->with('success', 'Kunjungan berhasil diperbarui.');
     }
+
+    // Method untuk mendapatkan daftar poli
+
 
     public function destroy(Visits $visit)
     {

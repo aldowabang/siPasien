@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('heart_rate')->nullable();
             $table->integer('respiratory_rate')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -21,10 +21,12 @@
             <p class="mb-0">Berikut adalah data Pasien</p>
         </div>
         <div>
+            @if(auth()->user()->role === 'admin')
             <a href="{{ route('add-pasien') }}" class="btn btn-primary buttom-radius"><i class="fas fa-plus mr-2"></i> Tambah Data</a>
             <a href="{{ route('patients.trashed') }}" class="btn btn-secondary buttom-radius">
                 <i class="fas fa-trash mr-2"></i> Data Terhapus
             </a>
+            @endif
         </div>
     </div>
     <div class="card-body">
@@ -53,6 +55,7 @@
                             <td>{{ $patient->name }}</td>
                             <td>{{ $patient->medical_record_number }}</td>
                             <td>
+                                @if(auth()->user()->role === 'admin')
                                 <a href="{{ route('patients.show', $patient->id) }}" class="btn btn-info btn-sm buttom-radius">
                                 <i class="fas fa-eye mr-2"></i> Lihat</a>
                                 <a href="{{ route('patients.edit', $patient->id) }}" class="btn btn-warning btn-sm buttom-radius"><i class="fas fa-edit mr-2"></i>Edit</a>
@@ -61,7 +64,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm buttom-radius"><i class="fas fa-trash mr-2"></i> Hapus</button>
                                 </form>
-                            </td>
+                                @endif
                         </tr>
                     @endforeach
                 </tbody>

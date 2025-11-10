@@ -2,47 +2,68 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'phone',
+        'is_active'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_active' => 'boolean'
+    ];
+
+    // Roles
+    const ROLE_ADMIN = 'admin';
+    const ROLE_DOKTER = 'dokter';
+    const ROLE_PERAWAT = 'perawat';
+    const ROLE_REGISTRASI = 'registrasi';
+
+    public function isAdmin()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isDokter()
+    {
+        return $this->role === self::ROLE_DOKTER;
+    }
+
+    public function isPerawat()
+    {
+        return $this->role === self::ROLE_PERAWAT;
+    }
+
+    public function isRegistrasi()
+    {
+        return $this->role === self::ROLE_REGISTRASI;
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
+    }
+
+    // Relasi dengan visits jika diperlukan
+    public function visits()
+    {
+        return $this->hasMany(Visits::class);
     }
 }

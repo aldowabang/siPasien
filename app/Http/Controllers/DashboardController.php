@@ -3,58 +3,94 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Patient;
+use App\Models\Visit;
+use App\Models\MedicalRecord;
 use App\Models\Patients;
-use App\Models\User; // Jika ada model User
+use App\Models\Visits;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        
         // Total Pasien
         $totalPatients = Patients::count();
         
-        // Pasien bulan ini
-        $patientsThisMonth = Patients::whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
+        // Total Kunjungan
+        $totalVisits = Visits::count();
+        
+        // Kunjungan Hari Ini
+        $visitsToday = Visits::whereDate('visit_date', Carbon::today())->count();
+        
+        // Kunjungan Bulan Ini
+        $visitsThisMonth = Visits::whereMonth('visit_date', Carbon::now()->month)
+            ->whereYear('visit_date', Carbon::now()->year)
             ->count();
         
-        // Pasien minggu ini
-        $patientsThisWeek = Patients::whereBetween('created_at', [
+        // Kunjungan Minggu Ini
+        $visitsThisWeek = Visits::whereBetween('visit_date', [
             Carbon::now()->startOfWeek(),
             Carbon::now()->endOfWeek()
         ])->count();
+
+        // Status Kunjungan Hari Ini
+        $todayStatus = Visits::whereDate('visit_date', Carbon::today())
+            ->selectRaw('status, count(*) as count')
+            ->groupBy('status')
+            ->get()
+            ->pluck('count', 'status')
+            ->toArray();
+
+        // Statistik Poli
+        $polyclinicStats = Visits::whereDate('visit_date', Carbon::today())
+            ->selectRaw('polyclinic, count(*) as count')
+            ->groupBy('polyclinic')
+            ->orderBy('count', 'desc')
+            ->take(5)
+            ->get();
+
+        // Kunjungan Terbaru (5 data)
+        $latestVisits = Visits::with(['patient', 'medicalRecord'])
+            ->orderBy('visit_date', 'desc')
+            ->take(5)
+            ->get();
+
+        // Antrian Hari Ini (yang masih waiting)
+        $todayQueue = Visits::with('patient')
+            ->whereDate('visit_date', Carbon::today())
+            ->where('status', 'waiting')
+            ->orderBy('queue_number')
+            ->take(10)
+            ->get();
+
+        // Statistik bulanan untuk chart
+        $monthlyStats = $this->getMonthlyStats();
         
-        // Pasien hari ini
-        $patientsToday = Patients::whereDate('created_at', Carbon::today())->count();
-        
-        // Statistik gender
+        // Statistik gender pasien
         $genderStats = Patients::selectRaw('gender, count(*) as count')
             ->groupBy('gender')
             ->get()
             ->pluck('count', 'gender')
             ->toArray();
-        
-        // Pasien terbaru (5 data)
-        $latestPatients = Patients::orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
-        
-        // Statistik bulanan untuk chart
-        $monthlyStats = $this->getMonthlyStats();
-        
+
         $data = [
             'title' => 'Dashboard',
             'breadcrumbs' => [
                 ['label' => 'Dashboard', 'url' => route('dashboard')],
             ],
             'totalPatients' => $totalPatients,
-            'patientsThisMonth' => $patientsThisMonth,
-            'patientsThisWeek' => $patientsThisWeek,
-            'patientsToday' => $patientsToday,
-            'genderStats' => $genderStats,
-            'latestPatients' => $latestPatients,
+            'totalVisits' => $totalVisits,
+            'visitsToday' => $visitsToday,
+            'visitsThisMonth' => $visitsThisMonth,
+            'visitsThisWeek' => $visitsThisWeek,
+            'todayStatus' => $todayStatus,
+            'polyclinicStats' => $polyclinicStats,
+            'latestVisits' => $latestVisits,
+            'todayQueue' => $todayQueue,
             'monthlyStats' => $monthlyStats,
+            'genderStats' => $genderStats,
         ];
 
         return view('admin.dashboard', $data);
@@ -64,8 +100,8 @@ class DashboardController extends Controller
     {
         $currentYear = Carbon::now()->year;
         
-        $monthlyData = Patients::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->whereYear('created_at', $currentYear)
+        $monthlyData = Visits::selectRaw('MONTH(visit_date) as month, COUNT(*) as count')
+            ->whereYear('visit_date', $currentYear)
             ->groupBy('month')
             ->orderBy('month')
             ->get()

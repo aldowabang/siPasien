@@ -26,11 +26,11 @@ class Visits extends Model
     ];
 
     // Relationships
+    // PERBAIKAN: Tentukan foreign key secara eksplisit
     public function patient()
     {
-        return $this->belongsTo(Patients::class);
+        return $this->belongsTo(Patients::class, 'patient_id'); // Tentukan patient_id sebagai foreign key
     }
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -40,6 +40,12 @@ class Visits extends Model
     public function medicalRecord()
     {
         return $this->hasOne(Medical_records::class, 'visit_id'); // Tentukan visit_id sebagai foreign key
+    }
+
+        // PERBAIKAN: Pastikan relasi medicalRecord ada
+    public function medical_Record()
+    {
+        return $this->hasOne(Medical_records::class, 'visit_id');
     }
 
     // Scopes

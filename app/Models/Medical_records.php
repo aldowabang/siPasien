@@ -34,6 +34,8 @@ class Medical_records extends Model
     {
         return $this->belongsTo(Visits::class, 'visit_id'); // Tentukan visit_id sebagai foreign key
     }
+
+    
     public function prescriptions()
     {
         return $this->hasMany(Prescriptions::class);
