@@ -21,7 +21,7 @@ class UserController extends Controller
             'users' => $users
         ];
 
-        return view('admin.users.index', $data);
+        return view('admin.Users.index', $data);
     }
 
     public function create()
@@ -34,7 +34,7 @@ class UserController extends Controller
             ],
         ];
 
-        return view('admin.users.create', $data);
+        return view('admin.Users.create', $data);
     }
 
     public function store(Request $request)
@@ -70,7 +70,7 @@ class UserController extends Controller
             'user' => $user
         ];
 
-        return view('admin.users.edit', $data);
+        return view('admin.Users.edit', $data);
     }
 
     public function update(Request $request, User $user)
@@ -130,6 +130,6 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Anda telah logout berhasil.');
     }
 }

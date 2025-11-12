@@ -16,21 +16,12 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h2 class="card-title mb-0">Tambah Data Pasien</h2>
+            <h2 class="card-title mb-0">Pendaftaran Data Pasien</h2>
             <p class="mb-0">Silakan isi data Pasien di bawah ini</p>
         </div>
     </div>
     <div class="card-body">
-                @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <form action="{{ route('store-pasien') }}" method="POST">
+        <form action="{{ route('registrasi.add') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-6">

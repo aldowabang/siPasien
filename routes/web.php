@@ -44,10 +44,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/patients/{id}', [PatientsController::class, 'destroy'])->name('patients.destroy');
         Route::post('/patients/{id}/restore', [PatientsController::class, 'restore'])->name('patients.restore');
         Route::delete('/patients/{id}/force-delete', [PatientsController::class, 'forceDelete'])->name('patients.force-delete');
+
+        Route::get('/registrasi', [PatientsController::class, 'registrationForm'])->name('registrasi');
+        Route::post('/registrasi-add' , [PatientsController::class, 'storeRegis'])->name('registrasi.add');
     });
 
     // ==================== VISIT ROUTES ====================
-    Route::middleware(['role:admin,perawat'])->group(function () {
+    Route::middleware(['role:admin,perawat,registrasi'])->group(function () {
         Route::get('/visits', [VisitsController::class, 'index'])->name('visits.index');
         Route::get('/visits/create', [VisitsController::class, 'create'])->name('visits.create');
         Route::post('/visits', [VisitsController::class, 'store'])->name('visits.store');

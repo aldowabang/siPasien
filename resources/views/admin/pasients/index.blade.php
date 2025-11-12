@@ -26,6 +26,8 @@
             <a href="{{ route('patients.trashed') }}" class="btn btn-secondary buttom-radius">
                 <i class="fas fa-trash mr-2"></i> Data Terhapus
             </a>
+            @else
+            <a href="{{ route('registrasi') }}" class="btn btn-primary buttom-radius"><i class="fas fa-plus mr-2"></i> Pendaftaran Pasien</a>
             @endif
         </div>
     </div>
@@ -64,6 +66,9 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm buttom-radius"><i class="fas fa-trash mr-2"></i> Hapus</button>
                                 </form>
+                                @else
+                                <a href="{{ route('patients.show', $patient->id) }}" class="btn btn-info btn-sm buttom-radius">
+                                <i class="fas fa-eye"></i> Lihat</a>
                                 @endif
                         </tr>
                     @endforeach

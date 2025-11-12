@@ -49,7 +49,7 @@
 
                 <!-- Menu Master Data - Hanya Admin -->
                 @if(auth()->user()->role === 'admin')
-                <li class="nav-item dropdown {{ in_array($title, ['Data User']) ? 'active' : '' }}">
+                <li class="nav-item {{ in_array($title, ['Data User']) ? 'active' : '' }}">
                     <a href="" class="nav-link with-sub">
                         <i class="typcn typcn-cog-outline"></i> Master Data
                     </a>
@@ -65,8 +65,8 @@
 
                 <!-- Menu khusus untuk role Registrasi -->
                 @if(auth()->user()->role === 'registrasi')
-                <li class="nav-item {{ $title == 'Pendaftaran Pasien' ? 'active' : '' }}">
-                    <a href="{{ route('Pasien') }}" class="nav-link">
+                <li class="nav-item {{ $title == 'Registrasi Pasien' ? 'active' : '' }}">
+                    <a href="{{ route('registrasi') }}" class="nav-link">
                         <i class="typcn typcn-document-add"></i> Pendaftaran Pasien
                     </a>
                 </li>
